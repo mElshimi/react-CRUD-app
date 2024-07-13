@@ -14,7 +14,9 @@ export const getPosts = createAsyncThunk(
     }
   }
 );
+
 const initialState = { records: [], loading: false, error: null };
+
 const postSlice = createSlice({
   name: "posts",
   initialState,
@@ -29,7 +31,6 @@ const postSlice = createSlice({
       .addCase(getPosts.fulfilled, (state, action) => {
         state.loading = false;
         state.records = action.payload;
-        console.log(action);
       })
       .addCase(getPosts.rejected, (state, action) => {
         state.loading = false;
