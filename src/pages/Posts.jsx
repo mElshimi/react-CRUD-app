@@ -18,7 +18,7 @@ export default function Posts() {
   return (
     <>
       <section className="py-7">
-        <Loading records={records} loading={loading} error={error}>
+        <Loading loading={loading} error={error}>
           <PostItem records={records} deleteRecord={deleteRecord} />
         </Loading>
       </section>
