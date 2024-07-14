@@ -14,14 +14,20 @@ export default function PostItem({ records, deleteRecord }) {
   };
 
   const recordsList = records.map((item) => (
-    <Card key={item.id} className="w-11/12  mx-auto hover:cursor-pointer">
-      <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-        {item.title}
-      </h5>
-      <p className="font-normal text-gray-700 dark:text-gray-400">
-        {item.description}
-      </p>
+    <div
+      key={item.id}
+      className="w-11/12 bg-white text-center flex flex-col justify-between dark:bg-slate-800 shadow-lg rounded-lg py-5 px-3 mx-auto "
+    >
       <div>
+        <h5 className="text-2xl  font-bold tracking-tight text-gray-900 dark:text-white">
+          {item.title}
+        </h5>
+        <p className="font-normal text-gray-700 py-5 dark:text-gray-400">
+          {item.description}
+        </p>
+      </div>
+
+      <div className="text-center flex justify-center">
         <Tooltip content="delete" placement="bottom">
           <button
             onClick={() => {
@@ -36,7 +42,7 @@ export default function PostItem({ records, deleteRecord }) {
           </button>
         </Tooltip>
       </div>
-    </Card>
+    </div>
   ));
 
   return (

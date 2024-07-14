@@ -3,6 +3,7 @@ import axios from "axios";
 import { baseUrl } from "../utils/utils";
 import { toast } from "react-toastify";
 
+// get posts from server
 export const getPosts = createAsyncThunk(
   "posts/getPosts",
   async (_, thunkApi) => {
@@ -16,6 +17,7 @@ export const getPosts = createAsyncThunk(
   }
 );
 
+// delete posts from server
 export const deletePost = createAsyncThunk(
   "posts/deletePost",
   async (id, thunkApi) => {
@@ -31,8 +33,26 @@ export const deletePost = createAsyncThunk(
   }
 );
 
+// add posts from server
+export const insertPost = createAsyncThunk(
+  "posts/insertPost",
+  async (data, thunkApi) => {
+    const { rejectWithValue } = thunkApi;
+    try {
+      const res = await axios.post(`${baseUrl}/posts`, data);
+      toast.success("Added Post Successfully");
+      // dispatch(getPosts());
+      return res.data;
+    } catch (error) {
+      return rejectWithValue(toast.error(error.message));
+    }
+  }
+);
+
+// initial value for state
 const initialState = { records: [], loading: false, error: null };
 
+// post slice
 const postSlice = createSlice({
   name: "posts",
   initialState,
@@ -65,6 +85,20 @@ const postSlice = createSlice({
         );
       })
       .addCase(deletePost.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // add posts
+      .addCase(insertPost.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(insertPost.fulfilled, (state, action) => {
+        state.loading = false;
+        state.records.push(action.payload);
+      })
+      .addCase(insertPost.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });
