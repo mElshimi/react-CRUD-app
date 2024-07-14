@@ -52,8 +52,26 @@ export const insertPost = createAsyncThunk(
   async (data, thunkApi) => {
     const { rejectWithValue } = thunkApi;
     try {
+      data.creationDate = Date.now();
+      data.modificationDate = Date.now();
       const res = await axios.post(`${baseUrl}/posts`, data);
       toast.success("Added Post Successfully");
+      return res.data;
+    } catch (error) {
+      return rejectWithValue(toast.error(error.message));
+    }
+  }
+);
+
+// edit posts from server
+export const editPost = createAsyncThunk(
+  "posts/editPost",
+  async (data, thunkApi) => {
+    const { rejectWithValue } = thunkApi;
+    try {
+      data.modificationDate = Date.now();
+      const res = await axios.patch(`${baseUrl}/posts/${data.id}`, data);
+      toast.success("Update Post Successfully");
       return res.data;
     } catch (error) {
       return rejectWithValue(toast.error(error.message));
@@ -100,7 +118,7 @@ const postSlice = createSlice({
         state.error = action.payload;
       })
 
-      // delete posts
+      // delete post
       .addCase(deletePost.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -116,7 +134,7 @@ const postSlice = createSlice({
         state.error = action.payload;
       })
 
-      // add posts
+      // add post
       .addCase(insertPost.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -126,6 +144,19 @@ const postSlice = createSlice({
         state.records.push(action.payload);
       })
       .addCase(insertPost.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // edit post
+      .addCase(editPost.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(editPost.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(editPost.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

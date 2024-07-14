@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PostItem from "../components/PostItem";
-import { deletePost, getPosts } from "../state/postSlice";
+import { deletePost, getPosts } from "../store/postSlice";
 import Loading from "../components/Loading";
 
 export default function Posts() {

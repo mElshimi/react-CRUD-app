@@ -5,7 +5,7 @@ import { useNavigate, useRouteError } from "react-router-dom";
 export default function NotFound() {
   const navigate = useNavigate();
   const error = useRouteError();
-  console.error(error);
+  
   return (
     <>
       <main className="min-h-screen text-center bg-gray-900 w-full flex justify-center items-center flex-col gap-y-3  text-white">

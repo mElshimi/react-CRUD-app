@@ -18,7 +18,6 @@ export default function InputField({ register, name, errors }) {
             {...register(name, {
               required: `${name} is requierd`,
             })}
-            // defaultValue={book ? book.title : ""}
             id={name}
             color={errors[name] && "failure"}
             placeholder={`Post ${Name}`}
