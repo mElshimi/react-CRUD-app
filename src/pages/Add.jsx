@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import AreaField from "../components/AreaField";
 import InputField from "../components/InputField";
 import { useDispatch } from "react-redux";
-import { insertPost } from "../state/postSlice";
+import { insertPost } from "../store/postSlice";
 import { useNavigate } from "react-router-dom";
 
 export default function Add() {
@@ -30,7 +30,12 @@ export default function Add() {
           className=" w-11/12 mx-auto shadow-lg"
         >
           {/* title input */}
-          <InputField register={register} name={"title"} errors={errors} />
+          <InputField
+            register={register}
+            name={"title"}
+            errors={errors}
+            defaultValue="gdg"
+          />
           {/* pricee input */}
 
           {/* description input */}
