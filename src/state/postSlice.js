@@ -7,9 +7,22 @@ import { toast } from "react-toastify";
 export const getPosts = createAsyncThunk(
   "posts/getPosts",
   async (_, thunkApi) => {
-    const { rejectWithValue, getState } = thunkApi;
+    const { rejectWithValue } = thunkApi;
     try {
       const res = await axios.get(`${baseUrl}/posts`);
+      return res.data;
+    } catch (error) {
+      return rejectWithValue(toast.error(error.message));
+    }
+  }
+);
+// get post details from server
+export const getPost = createAsyncThunk(
+  "posts/getPost",
+  async (id, thunkApi) => {
+    const { rejectWithValue } = thunkApi;
+    try {
+      const res = await axios.get(`${baseUrl}/posts/${id}`);
       return res.data;
     } catch (error) {
       return rejectWithValue(toast.error(error.message));
@@ -21,11 +34,11 @@ export const getPosts = createAsyncThunk(
 export const deletePost = createAsyncThunk(
   "posts/deletePost",
   async (id, thunkApi) => {
-    const { rejectWithValue, getState, dispatch } = thunkApi;
+    const { rejectWithValue } = thunkApi;
     try {
       const res = await axios.delete(`${baseUrl}/posts/${id}`);
       toast.success("Delete Post Successfully");
-      // dispatch(getPosts());
+
       return res.data;
     } catch (error) {
       return rejectWithValue(toast.error(error.message));
@@ -41,7 +54,6 @@ export const insertPost = createAsyncThunk(
     try {
       const res = await axios.post(`${baseUrl}/posts`, data);
       toast.success("Added Post Successfully");
-      // dispatch(getPosts());
       return res.data;
     } catch (error) {
       return rejectWithValue(toast.error(error.message));
@@ -50,7 +62,7 @@ export const insertPost = createAsyncThunk(
 );
 
 // initial value for state
-const initialState = { records: [], loading: false, error: null };
+const initialState = { records: [], loading: false, error: null, record: null };
 
 // post slice
 const postSlice = createSlice({
@@ -63,12 +75,27 @@ const postSlice = createSlice({
       .addCase(getPosts.pending, (state) => {
         state.loading = true;
         state.error = null;
+        state.record = null;
       })
       .addCase(getPosts.fulfilled, (state, action) => {
         state.loading = false;
         state.records = action.payload;
       })
       .addCase(getPosts.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // get post
+      .addCase(getPost.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getPost.fulfilled, (state, action) => {
+        state.loading = false;
+        state.record = action.payload;
+      })
+      .addCase(getPost.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

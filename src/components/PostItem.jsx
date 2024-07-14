@@ -1,6 +1,6 @@
-import { Button, Card, Modal, Tooltip } from "flowbite-react";
+import { Tooltip } from "flowbite-react";
 import { MdDeleteForever } from "react-icons/md";
-
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import ModalDelete from "./ModalDelete";
 
@@ -18,10 +18,16 @@ export default function PostItem({ records, deleteRecord }) {
       key={item.id}
       className="w-11/12 bg-white text-center flex flex-col justify-between dark:bg-slate-800 shadow-lg rounded-lg py-5 px-3 mx-auto "
     >
-      <div>
-        <h5 className="text-2xl  font-bold tracking-tight text-gray-900 dark:text-white">
-          {item.title}
-        </h5>
+      <div className="flex flex-col items-center">
+        <Tooltip content="details" placement="right">
+          <Link
+            to={`post/${item.id}`}
+            className="text-2xl hover:cursor-pointer font-bold tracking-tight text-gray-900 dark:text-white"
+          >
+            {item.title}
+          </Link>
+        </Tooltip>
+
         <p className="font-normal text-gray-700 py-5 dark:text-gray-400">
           {item.description}
         </p>
@@ -47,15 +53,19 @@ export default function PostItem({ records, deleteRecord }) {
 
   return (
     <>
-      <div className="md:w-5/6 mx-auto  grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-3">
-        {recordsList}
-        <ModalDelete
-          openModal={openModal}
-          setOpenModal={setOpenModal}
-          deleteHandler={deleteHandler}
-          id={id}
-        />
-      </div>
+      {records.length > 0 ? (
+        <div className="md:w-5/6 mx-auto  grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-3">
+          {recordsList}
+          <ModalDelete
+            openModal={openModal}
+            setOpenModal={setOpenModal}
+            deleteHandler={deleteHandler}
+            id={id}
+          />
+        </div>
+      ) : (
+        <h1 className="dark:text-white text-center">No Data</h1>
+      )}
     </>
   );
 }
