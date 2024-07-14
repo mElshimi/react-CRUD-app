@@ -6,6 +6,7 @@ import Add from "./pages/Add";
 import Edit from "./pages/Edit";
 import Post from "./pages/Posts";
 import Details from "./pages/Details";
+import { Slide, ToastContainer } from "react-toastify";
 // import ReactDOM from "react-dom/client";
 
 function App() {
@@ -40,6 +41,18 @@ function App() {
   ]);
   return (
     <>
+      <ToastContainer
+        position="top-right"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        transition={Slide}
+      />
       <RouterProvider router={routes} />
     </>
   );

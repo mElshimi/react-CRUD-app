@@ -1,12 +1,17 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PostItem from "../components/PostItem";
-import { getPosts } from "../state/postSlice";
+import { deletePost, getPosts } from "../state/postSlice";
 import Loading from "../components/Loading";
 
 export default function Posts() {
   const dispatch = useDispatch();
   const { records, loading, error } = useSelector((state) => state.posts);
+
+  const deleteRecord = useCallback(
+    (id) => dispatch(deletePost(id)),
+    [dispatch]
+  );
   useEffect(() => {
     dispatch(getPosts());
   }, [dispatch]);
@@ -14,7 +19,7 @@ export default function Posts() {
     <>
       <section className="py-7">
         <Loading records={records} loading={loading} error={error}>
-          <PostItem records={records} />
+          <PostItem records={records} deleteRecord={deleteRecord} />
         </Loading>
       </section>
     </>
