@@ -1,6 +1,5 @@
 import {
   Avatar,
-  Button,
   DarkThemeToggle,
   Dropdown,
   Flowbite,
@@ -24,10 +23,6 @@ export default function Headers() {
           </span>
         </Navbar.Brand>
         <div className="flex md:order-2 ">
-          <Button aria-label="submit" type="submit">
-            login
-          </Button>
-
           <Dropdown
             arrowIcon={false}
             inline
