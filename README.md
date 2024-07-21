@@ -58,7 +58,7 @@ To get a local copy up and running, follow these simple steps:
    ```
 2- **Install dependencies**:
   ```sh
-   cd Book-store
+   cd react-CRUD-app
    npm install
   ```
 3- **Run the application**:
