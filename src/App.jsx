@@ -1,16 +1,16 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createHashRouter, RouterProvider } from "react-router-dom";
+import { Slide, ToastContainer } from "react-toastify";
 import "./App.css";
+import Add from "./pages/Add";
+import Details from "./pages/Details";
+import Edit from "./pages/Edit";
 import MasterLayout from "./pages/MasterLayout";
 import NotFound from "./pages/NotFound";
-import Add from "./pages/Add";
-import Edit from "./pages/Edit";
 import Post from "./pages/Posts";
-import Details from "./pages/Details";
-import { Slide, ToastContainer } from "react-toastify";
 // import ReactDOM from "react-dom/client";
 
 function App() {
-  const routes = createBrowserRouter([
+  const routes = createHashRouter([
     {
       path: "/",
       element: <MasterLayout />,
