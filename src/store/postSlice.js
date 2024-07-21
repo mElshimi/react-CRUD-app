@@ -34,11 +34,11 @@ export const getPost = createAsyncThunk(
 export const deletePost = createAsyncThunk(
   "posts/deletePost",
   async (id, thunkApi) => {
-    const { rejectWithValue } = thunkApi;
+    const { rejectWithValue, dispatch } = thunkApi;
     try {
       const res = await axios.delete(`${baseUrl}/posts/${id}`);
       toast.success("Delete Post Successfully");
-
+      dispatch(getPosts());
       return res.data;
     } catch (error) {
       return rejectWithValue(toast.error(error.message));
@@ -123,11 +123,8 @@ const postSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(deletePost.fulfilled, (state, action) => {
+      .addCase(deletePost.fulfilled, (state) => {
         state.loading = false;
-        state.records = state.records.filter(
-          (post) => post.id !== action.payload.id
-        );
       })
       .addCase(deletePost.rejected, (state, action) => {
         state.loading = false;
